@@ -1,15 +1,14 @@
-import React, {Component} from 'react';
-import WAVEInterface from './waveInterface';
-import downloadBlob from './downloadBlob';
+import React, { Component } from "react";
+import WAVEInterface from "./waveInterface";
+import downloadBlob from "./downloadBlob";
 
-
-export default class AudioRecorder extends Component{
+export default class AudioRecorder extends Component {
   waveInterface = new WAVEInterface();
 
   state = {
     isRecording: false,
     isPlaying: false,
-    audioData: this.props.initialAudio
+    audioData: this.props.initialAudio,
   };
 
   componentWillReceiveProps(nextProps) {
@@ -29,17 +28,24 @@ export default class AudioRecorder extends Component{
     }
   }
 
-  componentWillMount() { this.waveInterface.reset(); }
-  componentWillUnmount() { this.waveInterface.reset(); }
+  componentWillMount() {
+    this.waveInterface.reset();
+  }
+  componentWillUnmount() {
+    this.waveInterface.reset();
+  }
 
   startRecording() {
     if (!this.state.isRecording) {
-      this.waveInterface.startRecording()
+      this.waveInterface
+        .startRecording()
         .then(() => {
           this.setState({ isRecording: true });
           if (this.props.onRecordStart) this.props.onRecordStart();
         })
-        .catch((err) => { throw err; });
+        .catch((err) => {
+          throw err;
+        });
     }
   }
 
@@ -48,23 +54,25 @@ export default class AudioRecorder extends Component{
 
     this.setState({
       isRecording: false,
-      audioData: this.waveInterface.audioData
+      audioData: this.waveInterface.audioData,
     });
 
     if (this.props.onChange) {
       this.props.onChange({
         duration: this.waveInterface.audioDuration,
-        audioData: this.waveInterface.audioData
+        audioData: this.waveInterface.audioData,
       });
     }
   }
 
   startPlayback() {
     if (!this.state.isPlaying) {
-      this.waveInterface.startPlayback(this.props.loop, this.onAudioEnded).then(() => {
-        this.setState({ isPlaying: true });
-        if (this.props.onPlay) this.props.onPlay();
-      });
+      this.waveInterface
+        .startPlayback(this.props.loop, this.onAudioEnded)
+        .then(() => {
+          this.setState({ isPlaying: true });
+          if (this.props.onPlay) this.props.onPlay();
+        });
     }
   }
 
@@ -81,7 +89,8 @@ export default class AudioRecorder extends Component{
 
   onRemoveClick = () => {
     this.waveInterface.reset();
-    if (this.state.audioData && this.props.onChange) this.props.onChange({ duration: 0, audioData: null });
+    if (this.state.audioData && this.props.onChange)
+      this.props.onChange({ duration: 0, audioData: null });
     this.setState({
       isPlaying: false,
       isRecording: false,
@@ -89,7 +98,8 @@ export default class AudioRecorder extends Component{
     });
   };
 
-  onDownloadClick = () => downloadBlob(this.state.audioData, this.props.filename);
+  onDownloadClick = () =>
+    downloadBlob(this.state.audioData, this.props.filename);
 
   onButtonClick = (event: React.SyntheticEvent<HTMLButtonElement>) => {
     if (this.state.audioData) {
@@ -112,52 +122,55 @@ export default class AudioRecorder extends Component{
     return (
       <div className="AudioRecorder">
         <button
-          className={
-            [
-              'AudioRecorder-button',
-              this.state.audioData ? 'hasAudio' : '',
-              this.state.isPlaying ? 'isPlaying' : '',
-              this.state.isRecording ? 'isRecording' : '',
-            ].join(' ')
-          }
+          className={[
+            "AudioRecorder-button",
+            this.state.audioData ? "hasAudio" : "",
+            this.state.isPlaying ? "isPlaying" : "",
+            this.state.isRecording ? "isRecording" : "",
+          ].join(" ")}
           onClick={this.onButtonClick}
         >
-          {this.state.audioData && !this.state.isPlaying && this.props.playLabel}
-          {this.state.audioData && this.state.isPlaying && this.props.playingLabel}
-          {!this.state.audioData && !this.state.isRecording && this.props.recordLabel}
-          {!this.state.audioData && this.state.isRecording && this.props.recordingLabel}
+          {this.state.audioData &&
+            !this.state.isPlaying &&
+            this.props.playLabel}
+          {this.state.audioData &&
+            this.state.isPlaying &&
+            this.props.playingLabel}
+          {!this.state.audioData &&
+            !this.state.isRecording &&
+            this.props.recordLabel}
+          {!this.state.audioData &&
+            this.state.isRecording &&
+            this.props.recordingLabel}
         </button>
-        {this.state.audioData &&
-          <button
-            className="AudioRecorder-remove"
-            onClick={this.onRemoveClick}
-          >
+        {this.state.audioData && (
+          <button className="AudioRecorder-remove" onClick={this.onRemoveClick}>
             {this.props.removeLabel}
           </button>
-        }
-        {this.state.audioData && this.props.downloadable &&
+        )}
+        {this.state.audioData && this.props.downloadable && (
           <button
             className="AudioRecorder-download"
             onClick={this.onDownloadClick}
           >
             {this.props.downloadLabel}
           </button>
-        }
+        )}
       </div>
     );
   }
 }
 
 AudioRecorder.defaultProps = {
-    loop: false,
-    downloadable: true,
-    className: '',
-    style: {},
-    filename: 'output.wav',
-    playLabel: '🔊 Play',
-    playingLabel: '❚❚ Playing',
-    recordLabel: '● Record',
-    recordingLabel: '● Recording',
-    removeLabel: '✖ Remove',
-    downloadLabel: '\ud83d\udcbe Save' // unicode floppy disk
+  loop: false,
+  downloadable: true,
+  className: "",
+  style: {},
+  filename: "output.wav",
+  playLabel: "🔊 Play",
+  playingLabel: "❚❚ Playing",
+  recordLabel: "● Record",
+  recordingLabel: "● Recording",
+  removeLabel: "✖ Remove",
+  downloadLabel: "\ud83d\udcbe Save", // unicode floppy disk
 };
