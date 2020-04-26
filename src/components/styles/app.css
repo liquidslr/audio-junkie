@@ -4,7 +4,7 @@
   text-align: center;
   padding: 5rem;
   display: grid;
-  grid-template-columns: auto auto auto auto auto;
+  grid-template-columns: auto auto auto ;
 }
 
 .margin1 {
@@ -42,6 +42,7 @@
   padding: 1rem 3rem;
   width: max-content;
   border: 1px solid #bfb5b5;
+  margin-bottom: 2rem;
   -webkit-box-shadow: 10px 10px 5px -4px rgba(201, 191, 201, 1);
   -moz-box-shadow: 10px 10px 5px -4px rgba(201, 191, 201, 1);
   box-shadow: 10px 10px 5px -4px rgba(201, 191, 201, 1);
@@ -80,4 +81,11 @@
 
 .btn:hover{
   cursor: pointer;
+}
+
+.control-btn{
+  padding: 4px 10px;
+  border-radius: 5px;
+  margin-right: 10px;
+  height: 1.8rem;
 }

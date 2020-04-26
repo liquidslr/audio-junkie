@@ -12,11 +12,15 @@ class CustomCard extends Component {
     return (
       <div key={item} className="snippet">
         <div className="heading">Snippet {item} </div>
-        <Conversation item={item} text="bot" />
-        <Conversation item={item} text="customer" />
+        <Conversation item={item} text="bot" type="bot" />
+        <Conversation item={item} text="customer" type="customer" />
         <div className="content" extra>
           <button className="download btn">Download</button>
-          <button className="delete btn" negative onClick={() => this.delete(item)}>
+          <button
+            className="delete btn"
+            negative
+            onClick={() => this.delete(item)}
+          >
             Delete
           </button>
         </div>

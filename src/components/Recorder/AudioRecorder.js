@@ -1,8 +1,14 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { setRecording, removeRecording } from "../actions";
+
 import WAVEInterface from "./waveInterface";
 import downloadBlob from "./downloadBlob";
 
-export default class AudioRecorder extends Component {
+import "../styles/app.css";
+
+
+class AudioRecorder extends Component {
   waveInterface = new WAVEInterface();
 
   state = {
@@ -50,6 +56,7 @@ export default class AudioRecorder extends Component {
   }
 
   stopRecording() {
+    const { id, recorder } = this.props;
     this.waveInterface.stopRecording();
 
     this.setState({
@@ -57,11 +64,15 @@ export default class AudioRecorder extends Component {
       audioData: this.waveInterface.audioData,
     });
 
+    this.props.setRecording([id, recorder, this.waveInterface.audioData]);
+
     if (this.props.onChange) {
       this.props.onChange({
         duration: this.waveInterface.audioDuration,
         audioData: this.waveInterface.audioData,
       });
+
+      this.props.setRecording([id, recorder, this.waveInterface.audioData]);
     }
   }
 
@@ -88,6 +99,8 @@ export default class AudioRecorder extends Component {
   };
 
   onRemoveClick = () => {
+    const { id, recorder } = this.props;
+
     this.waveInterface.reset();
     if (this.state.audioData && this.props.onChange)
       this.props.onChange({ duration: 0, audioData: null });
@@ -96,10 +109,12 @@ export default class AudioRecorder extends Component {
       isRecording: false,
       audioData: null,
     });
+    this.props.removeRecording([id, recorder]);
   };
 
-  onDownloadClick = () =>
+  onDownloadClick = () => {
     downloadBlob(this.state.audioData, this.props.filename);
+  };
 
   onButtonClick = (event: React.SyntheticEvent<HTMLButtonElement>) => {
     if (this.state.audioData) {
@@ -123,7 +138,7 @@ export default class AudioRecorder extends Component {
       <div className="AudioRecorder">
         <button
           className={[
-            "AudioRecorder-button",
+            "AudioRecorder-button control-btn",
             this.state.audioData ? "hasAudio" : "",
             this.state.isPlaying ? "isPlaying" : "",
             this.state.isRecording ? "isRecording" : "",
@@ -144,13 +159,13 @@ export default class AudioRecorder extends Component {
             this.props.recordingLabel}
         </button>
         {this.state.audioData && (
-          <button className="AudioRecorder-remove" onClick={this.onRemoveClick}>
+          <button className="AudioRecorder-remove control-btn" onClick={this.onRemoveClick}>
             {this.props.removeLabel}
           </button>
         )}
         {this.state.audioData && this.props.downloadable && (
           <button
-            className="AudioRecorder-download"
+            className="AudioRecorder-download control-btn"
             onClick={this.onDownloadClick}
           >
             {this.props.downloadLabel}
@@ -160,6 +175,18 @@ export default class AudioRecorder extends Component {
     );
   }
 }
+
+// export default AudioRecorder;
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     setRecording: details => dispatch(setRecording(details)),
+// };
+export default connect(null, (dispatch) => {
+  return {
+    setRecording: (details) => dispatch(setRecording(details)),
+    removeRecording: (details) => dispatch(removeRecording(details)),
+  };
+})(AudioRecorder);
 
 AudioRecorder.defaultProps = {
   loop: false,
@@ -171,6 +198,6 @@ AudioRecorder.defaultProps = {
   playingLabel: "❚❚ Playing",
   recordLabel: "● Record",
   recordingLabel: "● Recording",
-  removeLabel: "✖ Remove",
+  removeLabel: "↺ Re-record",
   downloadLabel: "\ud83d\udcbe Save", // unicode floppy disk
 };

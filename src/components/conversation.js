@@ -31,7 +31,7 @@ export default class Conversation extends Component {
 
   render() {
     const { input, disabled } = this.state;
-    const { text, item } = this.props;
+    const { text, item, type } = this.props;
     return (
       <div className="conv">
         <div className="margin1 title">{text}</div>
@@ -49,7 +49,7 @@ export default class Conversation extends Component {
           <AudioRecorder
             onChange={this.startRecording}
             id={item}
-            removeLabel="re-record"
+            recorder={type}
           />
         )}
       </div>
