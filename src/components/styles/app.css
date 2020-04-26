@@ -4,7 +4,7 @@
   text-align: center;
   padding: 5rem;
   display: grid;
-  grid-template-columns: auto auto auto ;
+  grid-template-columns: auto auto auto;
 }
 
 .margin1 {
@@ -79,11 +79,11 @@
   font-weight: bold;
 }
 
-.btn:hover{
+.btn:hover {
   cursor: pointer;
 }
 
-.control-btn{
+.control-btn {
   padding: 4px 10px;
   border-radius: 5px;
   margin-right: 10px;

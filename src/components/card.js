@@ -29,15 +29,14 @@ class CustomCard extends Component {
 
     readAsArrayBuffer();
     function concatenateBuffers() {
-       
       var byteLength = 0;
 
       buffers.forEach(function (buffer) {
-        console.log(buffer.byteLength,"bytelength")
+        console.log(buffer.byteLength, "bytelength");
         byteLength += buffer.byteLength;
       });
 
-      console.log(byteLength,"length")
+      console.log(byteLength, "length");
 
       var tmp = new Uint16Array(byteLength);
       var lastOffset = 0;
@@ -66,13 +65,13 @@ class CustomCard extends Component {
     let blob1 = obj["bot"];
     let blob2 = obj["customer"];
 
-    this.concatenateBlobs([blob2 , blob1], "audio/wav", (blob) => {
+    this.concatenateBlobs([blob2, blob1], "audio/wav", (blob) => {
       downloadBlob(blob, "combined-audio");
     });
   };
 
   render() {
-    const { item } = this.props;
+    const { item, deleteItem } = this.props;
     return (
       <div key={item} className="snippet">
         <div className="heading">Snippet {item} </div>
@@ -85,7 +84,7 @@ class CustomCard extends Component {
           <button
             className="delete btn"
             negative
-            onClick={() => this.delete(item)}
+            onClick={() => this.props.deleteItem(item)}
           >
             Delete
           </button>

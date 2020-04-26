@@ -30,7 +30,7 @@ class App extends Component {
     return (
       <div className="App">
         {items.map((item) => (
-          <CustomCard item={item} />
+          <CustomCard deleteItem={this.delete} item={item} />
         ))}
         <div className="snippet">
           <div className="center" onClick={this.addSnippet}>
