@@ -176,11 +176,7 @@ class AudioRecorder extends Component {
   }
 }
 
-// export default AudioRecorder;
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     setRecording: details => dispatch(setRecording(details)),
-// };
+
 export default connect(null, (dispatch) => {
   return {
     setRecording: (details) => dispatch(setRecording(details)),
