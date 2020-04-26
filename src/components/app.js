@@ -1,19 +1,27 @@
 import React, { Component } from "react";
-import { Card, Button, Icon } from "semantic-ui-react";
 
-import AudioRecorder from "./Recorder/AudioRecorder";
-
+import CustomCard from "./card";
 import "./styles/app.css";
 
 class App extends Component {
   state = {
-    items: [1, 2, 3, 4, 5],
+    items: [1],
   };
 
   addSnippet = () => {
     const { items } = this.state;
     let arr = items;
-    arr.push(arr[arr.length - 1] + 1);
+    arr.push(arr[arr.length - 1] + 1 || 1);
+    this.setState({ items: arr });
+  };
+
+  delete = (id) => {
+    const { items } = this.state;
+    let arr = items;
+    const index = arr.indexOf(id);
+    if (index > -1) {
+      arr.splice(index, 1);
+    }
     this.setState({ items: arr });
   };
 
@@ -22,26 +30,17 @@ class App extends Component {
     return (
       <div className="App">
         {items.map((item) => (
-          <Card key={item}>
-            <Card.Content>
-              <Card.Header>Snippet {item}</Card.Header>
-              <Card.Description>
-                <AudioRecorder removeLabel="re record" />
-              </Card.Description>
-            </Card.Content>
-            <Card.Content extra>
-              <Button negative>Delete</Button>
-            </Card.Content>
-          </Card>
+          <CustomCard item={item} />
         ))}
-        <Card>
-          <Card.Content className="center">
-            <Card.Description onClick={this.addSnippet} >
-              <Icon name="add circle" size="large" />
-              <div>Add snippet </div>
-            </Card.Description>
-          </Card.Content>
-        </Card>
+        <div className="snippet">
+          <div className="center" onClick={this.addSnippet}>
+            <div>
+              <i class="fa fa-plus-circle" aria-hidden="true"></i>
+              {"  "}
+              Add snippet
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

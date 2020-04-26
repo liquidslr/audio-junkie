@@ -1,8 +1,14 @@
+/* common */
+
 .App {
   text-align: center;
   padding: 5rem;
   display: grid;
   grid-template-columns: auto auto auto auto auto;
+}
+
+.margin1 {
+  margin-bottom: 1rem;
 }
 
 .card {
@@ -15,13 +21,63 @@
   margin: 1rem;
 }
 
-.ui.card:first-child {
-  margin: 1em 0;
-}
-
 .center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+/* Card */
+
+.heading {
+  font-size: 1.2rem;
+  font-weight: bolder;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #0000001c;
+}
+
+.snippet {
+  height: max-content;
+  background: ghostwhite !important;
+  padding: 1rem 3rem;
+  width: max-content;
+  border: 1px solid #bfb5b5;
+  -webkit-box-shadow: 10px 10px 5px -4px rgba(201, 191, 201, 1);
+  -moz-box-shadow: 10px 10px 5px -4px rgba(201, 191, 201, 1);
+  box-shadow: 10px 10px 5px -4px rgba(201, 191, 201, 1);
+}
+
+.conv {
+  padding: 1rem;
+}
+
+.title {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.download {
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  color: black;
+  background: #1678c2;
+  font-size: 0.9rem;
+  margin: 1rem;
+  color: white;
+  font-weight: bold;
+}
+
+.delete {
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  color: black;
+  background: #db2828;
+  font-size: 0.9rem;
+  margin: 1rem;
+  color: white;
+  font-weight: bold;
+}
+
+.btn:hover{
+  cursor: pointer;
+}
